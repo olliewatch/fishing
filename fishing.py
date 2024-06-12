@@ -46,6 +46,11 @@ def get_fish_value(fish, values):
     value = values[fish]
     return value
     
+def get_inventory_value(inventory, values):
+    inventory_value = 0
+    for fish in inventory:
+        inventory_value += values[fish]
+    return inventory_value
     
 def print_fisher_stats(name, rod, bait, balance):
     print(f"{name} is using {rod} rod with {bait} bait and a balance of ${balance}")
