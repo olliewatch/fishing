@@ -34,22 +34,30 @@ class Fisher:
     def cast_rod(self):
         self.bait -= FISHING_COST
             
-    def catch_fish(self, fishes):
+    def catch_fish(self):
         if self.bait < FISHING_COST:
             print("You do not have enough bait to fish.")
-        
         self.cast_rod()
         all_fish = []
-        for fish, fish_count in fishes.items():
-            for _ in range(fish_count):
-                all_fish.append(fish)
+        for fish in fish_count:
+            all_fish.append(fish)
+        caught_fish = random.choice(all_fish)
+        decision = input(f"You have caught {caught_fish}! Would you like to 1. Sell or 2. Store this fish?")
+        if decision == "1":
+            self.sell_fish(caught_fish)
+        elif decision == "2":
+            self.store_fish(caught_fish)
         
-        remaining_fish = all_fish[:]
-        caught_fish = random.choice(remaining_fish)
-        remaining_fish.remove(caught_fish)
-        fish_inventory.append(caught_fish)
+    def sell_fish(self, fish):
+        print(f"You have sold {fish} for ${fish_value[fish]}")
+        self.balance += fish_value[fish]
         
+    def store_fish(self, fish):
+        self.inventory.append(fish)
         
+    def sell_inventory(self):
+        for fish in self.inventory:
+            self.sell_fish(fish)
         
 def main():
     print("--- Fishing Game ---")
@@ -57,10 +65,10 @@ def main():
     display_user(user)
     display_inventory(user)
     while user.bait > 0:
-        user.catch_fish(fish_count)
+        user.catch_fish()
         display_user(user)
         display_inventory(user)
-    get_inventory_value(user, fish_value)
+    get_inventory_value(user)
     
 def get_user():
     name = input("Please tell me your name: ")
